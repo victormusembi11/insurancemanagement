@@ -12,12 +12,6 @@ from customer import models as CMODEL
 from . import forms, models
 
 
-def home_view(request):
-    if request.user.is_authenticated:
-        return HttpResponseRedirect("afterlogin")
-    return render(request, "insurance/index.html")
-
-
 def is_customer(user):
     return user.groups.filter(name="CUSTOMER").exists()
 
@@ -312,10 +306,6 @@ def update_question_view(request, pk):
         "insurance/update_question.html",
         {"questionForm": questionForm}
     )
-
-
-def aboutus_view(request):
-    return render(request, "insurance/aboutus.html")
 
 
 def contactus_view(request):
