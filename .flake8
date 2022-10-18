@@ -1,0 +1,11 @@
+[flake8]
+extend-ignore = D103, D101, D106, D105, D102
+exclude =
+    .git,
+    .tox,
+    venv,
+    insurancemanagement/settings.py,
+    manage.py,
+    migrations
+
+max-line-length = 79
