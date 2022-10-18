@@ -1,5 +1,8 @@
+"""Customer app configuration."""
 from django.apps import AppConfig
 
 
 class CustomerConfig(AppConfig):
-    name = 'customer'
+    """Customer app configuration."""
+
+    name = "customer"
