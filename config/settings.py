@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
 from django.core.exceptions import ImproperlyConfigured
@@ -33,11 +34,9 @@ def get_bool_env(env_var):
     return os.getenv(env_var, "False") == "True"
 
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
-STATIC_DIR=os.path.join(BASE_DIR,'static')
-MEDIA_ROOT=os.path.join(BASE_DIR,'static')
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -53,17 +52,25 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+DJANGO_DEFAULT_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+]
+
+THIRD_PARTY_APPS = [
     'widget_tweaks',
+]
+
+PROJECT_APPS = [
     'insurance',
     'customer',
 ]
+
+INSTALLED_APPS = DJANGO_DEFAULT_APPS + THIRD_PARTY_APPS + PROJECT_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -80,7 +87,9 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR,],
+        'DIRS': [
+            BASE_DIR / 'templates/',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -127,7 +136,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/3.0/topics/i18n/
+# https://docs.djangoproject.com/en/4.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
@@ -145,10 +154,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
 STATICFILES_DIRS=[
-STATIC_DIR,
- ]
+    BASE_DIR / 'static/'
+]
+
+MEDIA_ROOT = BASE_DIR / 'static/'
+
+STATIC_ROOT = BASE_DIR / 'staticfiles/'
 
 LOGIN_REDIRECT_URL='/afterlogin'
 
